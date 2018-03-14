@@ -1,4 +1,5 @@
 import React from 'react'
+import Question from './Question'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { getDeck } from '../utils/helpers'
 import { white, black, gray } from '../utils/colors'
@@ -13,15 +14,35 @@ export default class Deck extends React.Component {
       	}
 	})
 
-	state = {
-		deck: ''
-	}
+	constructor(props) {
+	    super(props);
+	    this.state = {
+	      	deck: '',
+	    }
+	    this.addCard = this.addCard.bind(this);
+	    this.startQuiz = this.startQuiz.bind(this);
+  	}
 
 	componentDidMount(){
 		const deck = getDeck( this.props.navigation.state.params.deckId )
 		this.setState({
 			deck
 		})
+	}
+
+	addCard(){
+		console.log(this.props)
+	}
+
+	startQuiz(){
+		if(this.state.deck && this.state.deck.questions.length > 0){
+			console.log(this.props.navigation)
+			this.props.navigation.navigate(
+				'Question',
+				{deck: this.state.deck, questionNumber: 1 }
+			)
+		}
+		
 	}
 
 	render(){
@@ -34,11 +55,13 @@ export default class Deck extends React.Component {
 				</View>
 			}
 				<View style={{alignItems: 'center'}}> 
-					<TouchableOpacity style={[styles.btn]}>
-	      				<Text>Add Card</Text>
+					<TouchableOpacity onPress={this.addCard}>
+	      				<View style={[styles.btn]}>
+	      					<Text >Add Card</Text>
+	      				</View>
 	    			</TouchableOpacity>
-	        		<TouchableOpacity style={[styles.btn]}>
-	      				<Text>Start Quiz</Text>
+	        		<TouchableOpacity style={[styles.btn, styles.btnDark]} onPress={this.startQuiz}>
+	      				<Text style={{color:white}}>Start Quiz</Text>
 	    			</TouchableOpacity>
 	    		</View>
 			</View>
@@ -57,10 +80,13 @@ const styles = StyleSheet.create({
 		margin: 5,
 		width: 200,
 		height: 45,
-		borderRadius: 8,
+		borderRadius: 5,
 		borderWidth: 1,
-		borderColor: black,
 		alignItems: 'center',
 		justifyContent: 'center'
+	},
+	btnDark: {
+		backgroundColor: black,
+		
 	}
 })

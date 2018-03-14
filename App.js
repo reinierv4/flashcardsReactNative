@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, StatusBar, Platform } from 'react-native'
 import { getDecks } from './utils/helpers'
 import DeckList from './components/DeckList'
 import Deck from './components/Deck'
+import Question from './components/Question'
+import Answer from './components/Answer'
 import { Constants } from 'expo'
 import { red, white, black } from './utils/colors'
 import { TabNavigator, StackNavigator } from 'react-navigation'
@@ -40,6 +42,26 @@ const MainNavigator = StackNavigator({
         height: 50
       },
     }
+  },
+  Question:{
+    screen: Question,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: black,
+        height: 50
+      },
+    },
+  },
+  Answer:{
+    screen: Answer,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: black,
+        height: 50
+      },
+    },
   }
 })
 
