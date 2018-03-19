@@ -40,8 +40,11 @@ export async function getDecks () {
           console.log("returning the result...")
           return JSON.parse(value)
         }else{
-          addDummyDataToStorage().then( result => {
-            console.log("received result..")
+          addDummyDataToStorage().then(() => {
+            console.log("resolved add dummy data..")
+            AsyncStorage.getItem(DECKS_STORAGE_KEY).then((result) => {
+              return JSON.parse(result)
+            })
           })
         }
       })
@@ -91,18 +94,13 @@ export async function addCardToDeck (deckName, card) {
   }
 }
 
-function addDummyDataToStorage(){
+async function addDummyDataToStorage(){
   AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify({})).then( () => {
     saveDeckTitle('React').then( () => {
-      console.log("Added the react deck")
       saveDeckTitle('JavaScript').then( () => {
-        console.log("Added the js deck")
         addCardToDeck('React', dummyData['React'].questions[0]).then( () => {
-          console.log("Added the first react card")
           addCardToDeck('React', dummyData['React'].questions[1]).then( () => {
-            console.log("Added the second react card")
             addCardToDeck('JavaScript', dummyData['JavaScript'].questions[0])
-            console.log("Finished adding dummy data...")
           })
         })
       })
