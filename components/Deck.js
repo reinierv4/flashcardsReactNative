@@ -36,7 +36,6 @@ export default class Deck extends React.Component {
 
 	startQuiz(){
 		if(this.state.deck && this.state.deck.questions.length > 0){
-			console.log(this.props.navigation)
 			this.props.navigation.navigate(
 				'Question',
 				{deck: this.state.deck, questionNumber: 1 }

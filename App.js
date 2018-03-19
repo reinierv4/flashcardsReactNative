@@ -5,6 +5,8 @@ import DeckList from './components/DeckList'
 import Deck from './components/Deck'
 import Question from './components/Question'
 import Answer from './components/Answer'
+import CreateDeck from './components/CreateDeck'
+import Results from './components/Results'
 import { Constants } from 'expo'
 import { red, white, black } from './utils/colors'
 import { TabNavigator, StackNavigator } from 'react-navigation'
@@ -61,6 +63,19 @@ const MainNavigator = StackNavigator({
         backgroundColor: black,
         height: 50
       },
+    },
+  },
+  Results:{
+    screen: Results,
+    navigationOptions: {
+      header: null,
+    },
+  },
+  CreateDeck:{
+    screen: CreateDeck,
+    navigationOptions: {
+      tabBarLabel: 'Deck List View',
+      header: null
     },
   }
 })

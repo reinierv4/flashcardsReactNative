@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import DeckListItem from './DeckListItem'
+import NewDeck from './NewDeck'
 import { getDecks } from '../utils/helpers'
 import { yellow } from '../utils/colors'
 
@@ -12,9 +13,8 @@ export default class DeckList extends React.Component {
     }
 
 	componentDidMount(){
-		const decks = getDecks()
-		this.setState({
-			decks
+		getDecks().then(() => {
+			console.log("I am finished...")
 		})
 	}
 
@@ -22,7 +22,7 @@ export default class DeckList extends React.Component {
 		return(
 			<View>
 				<View style={styles.topText}><Text> DECKS </Text></View>
-				{this.state.decks && Object.keys(this.state.decks).map((key) => {
+				{!!this.state.decks && Object.keys(this.state.decks).map((key) => {
 	            return <DeckListItem
 	                      title={this.state.decks[key].title}
 	                      questionCount={this.state.decks[key].questions.length}
@@ -30,6 +30,9 @@ export default class DeckList extends React.Component {
 	                      navigate={this.props.navigation.navigate}
 	                    />
 	        	})}
+	        	<NewDeck 
+	        		navigate={this.props.navigation.navigate}
+	        	/>
 	        </View>
 		)
 	}
