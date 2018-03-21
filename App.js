@@ -6,6 +6,7 @@ import Deck from './components/Deck'
 import Question from './components/Question'
 import Answer from './components/Answer'
 import CreateDeck from './components/CreateDeck'
+import CreateQuestion from './components/CreateQuestion'
 import Results from './components/Results'
 import { Constants } from 'expo'
 import { red, white, black } from './utils/colors'
@@ -74,9 +75,14 @@ const MainNavigator = StackNavigator({
   CreateDeck:{
     screen: CreateDeck,
     navigationOptions: {
-      tabBarLabel: 'Deck List View',
       header: null
     },
+  },
+  CreateQuestion:{
+    screen: CreateQuestion,
+    navigationOptions: {
+      header: null
+    }
   }
 })
 

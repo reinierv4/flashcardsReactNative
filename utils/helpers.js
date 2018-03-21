@@ -33,35 +33,29 @@ const dummyData = {
 }
 
 export function mulitRemoveDecks(){
-  return AsyncStorage.getAllKeys().then(AsyncStorage.mulitRemove)
+  return AsyncStorage.removeItem(DECKS_STORAGE_KEY)
 }
 
 
 export async function getDecks () {
-	 if(await AsyncStorage.getItem(DECKS_STORAGE_KEY)){
-      return AsyncStorage.getItem(DECKS_STORAGE_KEY).then((result) => {
-        return JSON.parse(result)
-      })
-   }else{
-    addDummyDataToStorage.then(getDecks)
-   }
+  return AsyncStorage.getItem(DECKS_STORAGE_KEY)
 }
 
 export function getDeck (deckId) {
-	return AsyncStorage.getItem(DECKS_STORAGE_KEY)
-		.then((results) => {
-      		const data = JSON.parse(results)
-      		return data[deckId] 
-      	})
+  return AsyncStorage.getItem(DECKS_STORAGE_KEY)
+    .then((results) => {
+          const data = JSON.parse(results)
+          return data[deckId] 
+        })
       
 }
 
 export async function saveDeckTitle ( deckName ) {
-	try {
+  try {
     const value = JSON.parse(await AsyncStorage.getItem(DECKS_STORAGE_KEY))
     if (value && !value[deckName]){
       value[deckName] = { title: deckName, questions: []} 
-      await AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(value))
+      return AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(value))
     }else{
       console.log("deckcard already exists")
     }
@@ -72,11 +66,11 @@ export async function saveDeckTitle ( deckName ) {
 }
 
 export async function addCardToDeck (deckName, card) {
-	try {
+  try {
     let value = JSON.parse(await AsyncStorage.getItem(DECKS_STORAGE_KEY))
     if (value && value[deckName]){
       value[deckName].questions.push(card)
-      await AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(value))
+      return AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(dummyData))
     }else{
       console.log("Trying to add a card to deck that doesn't exist...")
     }
@@ -85,25 +79,6 @@ export async function addCardToDeck (deckName, card) {
   }
 }
 
-async function addDummyDataToStorage(){
-  return AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify({})).then( () => {
-    saveDeckTitle('React').then( () => {
-      saveDeckTitle('JavaScript').then( () => {
-        addCardToDeck('React', dummyData['React'].questions[0]).then( () => {
-          addCardToDeck('React', dummyData['React'].questions[1]).then( () => {
-            console.log("going to add the last card...")
-            addCardToDeck('JavaScript', dummyData['JavaScript'].questions[0])
-          })
-        })
-      })
-    })
-  })
-  
+export function addDummyDataToStorage(){
+  return AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(dummyData))
 }
-
-
-//Observations: addCard doesn't seem to wait
-//Check if save deck title waits
-// see print statements
-
-

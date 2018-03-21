@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, AsyncStorage } from 'react-native'
 import DeckListItem from './DeckListItem'
 import NewDeck from './NewDeck'
 import { getDecks, mulitRemoveDecks, addDummyDataToStorage } from '../utils/helpers'
@@ -13,10 +13,21 @@ export default class DeckList extends React.Component {
     }
 
 	componentDidMount(){
-		getDecks()
-		.then((decks) => this.setState({
-			decks
-		}))
+		try{
+			// mulitRemoveDecks()
+			// .then(addDummyDataToStorage)
+			// .then(getDecks)
+			getDecks().then((result) => {
+				const decks = JSON.parse(result)
+				this.setState({
+					decks
+				})
+			})
+				
+		}catch(error){
+			console.log(error)
+		}
+		
 	}
 
 	render() {

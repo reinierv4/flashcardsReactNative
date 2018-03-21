@@ -1,5 +1,6 @@
 import React from 'react'
 import Question from './Question'
+import CreateQuestion from './CreateQuestion'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { getDeck } from '../utils/helpers'
 import { white, black, gray } from '../utils/colors'
@@ -24,16 +25,19 @@ export default class Deck extends React.Component {
   	}
 
 	async componentDidMount(){
-		console.log(this.props.navigation.state.params.deckId)
 		const deck = await getDeck( this.props.navigation.state.params.deckId )
-		console.log(deck)
 		this.setState({
 			deck
 		})
 	}
 
 	addCard(){
-		console.log(this.props)
+		if(this.state.deck){
+			this.props.navigation.navigate(
+				'CreateQuestion',
+				{deck: this.state.deck, questionNumber: 1 }
+			)
+		}
 	}
 
 	startQuiz(){
@@ -43,7 +47,6 @@ export default class Deck extends React.Component {
 				{deck: this.state.deck, questionNumber: 1 }
 			)
 		}
-		
 	}
 
 	render(){

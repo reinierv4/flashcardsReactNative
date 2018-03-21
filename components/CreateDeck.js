@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native'
 import { yellow, black, white, gray } from '../utils/colors'
+import { saveDeckTitle } from '../utils/helpers'
 
 export default class CreateDeck extends React.Component{
 	
@@ -13,8 +14,11 @@ export default class CreateDeck extends React.Component{
 
 	createDeck(){
 		const deckName = this.state.text
-		console.log(deckName)
-		
+		saveDeckTitle(deckName).then(() => {
+			this.props.navigation.navigate(
+				'Home',
+			)
+		})
 	}
 
 	render(){
