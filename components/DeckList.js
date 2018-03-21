@@ -13,9 +13,7 @@ export default class DeckList extends React.Component {
     }
 
 	componentDidMount(){
-		getDecks().then(() => {
-			console.log("I am finished...")
-		})
+		getDecks().then((err, result) => console.log(result))
 	}
 
 	render() {

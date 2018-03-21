@@ -33,32 +33,36 @@ const dummyData = {
 }
 
 export async function getDecks () {
-	return AsyncStorage.clear().then(() => {
-    try {
-      return(
-        function() {
-          AsyncStorage.getItem(DECKS_STORAGE_KEY).then( (result) => {
-            if (result !== null){
-              return JSON.parse(value)
-            }else{
-              return(
-                addDummyDataToStorage().then(() => {
-                  console.log("results are written to async storage...")
-                  AsyncStorage.getItem(DECKS_STORAGE_KEY).then((result) => {
-                    return JSON.parse(result)
+	 try{
+      return AsyncStorage.getAllKeys().then(AsyncStorage.mulitRemove).then(() => {
+        try {
+          (async function(){
+            await AsyncStorage.getItem(DECKS_STORAGE_KEY).then( (result) => {
+              if (result !== null){
+                return JSON.parse(value)
+              }else{
+                (async function(){
+                  await addDummyDataToStorage().then(() => {
+                    (async function(){
+                      console.log("Going to return..")
+                      return AsyncStorage.getItem(DECKS_STORAGE_KEY).then((result) => {
+                        return JSON.parse(result)
+                      })
+                    }())
                   })
-                })
-              )
-            }
-          })
-        }()
-      )
-    }catch (error) {
+                }()) 
+              }
+            })
+          }()) 
+        }catch (error) {
+          console.log(error)
+          return dummyData 
+        }
+      })
+    }catch (error){
       console.log(error)
       return dummyData 
     }
-  })
-  
 }
 
 export async function getDeck (deckId) {
