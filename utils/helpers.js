@@ -33,21 +33,26 @@ const dummyData = {
 }
 
 export async function getDecks () {
-	AsyncStorage.clear().then(() => {
+	return AsyncStorage.clear().then(() => {
     try {
-      AsyncStorage.getItem(DECKS_STORAGE_KEY).then( (result) => {
-        if (result !== null){
-          console.log("returning the result...")
-          return JSON.parse(value)
-        }else{
-          addDummyDataToStorage().then(() => {
-            console.log("resolved add dummy data..")
-            AsyncStorage.getItem(DECKS_STORAGE_KEY).then((result) => {
-              return JSON.parse(result)
-            })
+      return(
+        function() {
+          AsyncStorage.getItem(DECKS_STORAGE_KEY).then( (result) => {
+            if (result !== null){
+              return JSON.parse(value)
+            }else{
+              return(
+                addDummyDataToStorage().then(() => {
+                  console.log("results are written to async storage...")
+                  AsyncStorage.getItem(DECKS_STORAGE_KEY).then((result) => {
+                    return JSON.parse(result)
+                  })
+                })
+              )
+            }
           })
-        }
-      })
+        }()
+      )
     }catch (error) {
       console.log(error)
       return dummyData 
@@ -56,12 +61,12 @@ export async function getDecks () {
   
 }
 
-export function getDeck (deckId) {
-	// return AsyncStorage.getItem(DECKS_STORAGE_KEY)
-	// 	.then((results) => {
- //      		const data = JSON.parse(results)
- //      		return data[deckId] 
- //      	})
+export async function getDeck (deckId) {
+	return await AsyncStorage.getItem(DECKS_STORAGE_KEY)
+		.then((results) => {
+      		const data = JSON.parse(results)
+      		return data[deckId] 
+      	})
       
 }
 
@@ -100,6 +105,7 @@ async function addDummyDataToStorage(){
       saveDeckTitle('JavaScript').then( () => {
         addCardToDeck('React', dummyData['React'].questions[0]).then( () => {
           addCardToDeck('React', dummyData['React'].questions[1]).then( () => {
+            console.log("going to add the last card...")
             addCardToDeck('JavaScript', dummyData['JavaScript'].questions[0])
           })
         })
