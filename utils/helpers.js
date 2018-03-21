@@ -32,41 +32,23 @@ const dummyData = {
   }
 }
 
-export async function getDecks () {
-	 try{
-      return AsyncStorage.getAllKeys().then(AsyncStorage.mulitRemove).then(() => {
-        try {
-          (async function(){
-            await AsyncStorage.getItem(DECKS_STORAGE_KEY).then( (result) => {
-              if (result !== null){
-                return JSON.parse(value)
-              }else{
-                (async function(){
-                  await addDummyDataToStorage().then(() => {
-                    (async function(){
-                      console.log("Going to return..")
-                      return AsyncStorage.getItem(DECKS_STORAGE_KEY).then((result) => {
-                        return JSON.parse(result)
-                      })
-                    }())
-                  })
-                }()) 
-              }
-            })
-          }()) 
-        }catch (error) {
-          console.log(error)
-          return dummyData 
-        }
-      })
-    }catch (error){
-      console.log(error)
-      return dummyData 
-    }
+export function mulitRemoveDecks(){
+  return AsyncStorage.getAllKeys().then(AsyncStorage.mulitRemove)
 }
 
-export async function getDeck (deckId) {
-	return await AsyncStorage.getItem(DECKS_STORAGE_KEY)
+
+export async function getDecks () {
+	 if(await AsyncStorage.getItem(DECKS_STORAGE_KEY)){
+      return AsyncStorage.getItem(DECKS_STORAGE_KEY).then((result) => {
+        return JSON.parse(result)
+      })
+   }else{
+    addDummyDataToStorage.then(getDecks)
+   }
+}
+
+export function getDeck (deckId) {
+	return AsyncStorage.getItem(DECKS_STORAGE_KEY)
 		.then((results) => {
       		const data = JSON.parse(results)
       		return data[deckId] 
@@ -104,7 +86,7 @@ export async function addCardToDeck (deckName, card) {
 }
 
 async function addDummyDataToStorage(){
-  AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify({})).then( () => {
+  return AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify({})).then( () => {
     saveDeckTitle('React').then( () => {
       saveDeckTitle('JavaScript').then( () => {
         addCardToDeck('React', dummyData['React'].questions[0]).then( () => {

@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import DeckListItem from './DeckListItem'
 import NewDeck from './NewDeck'
-import { getDecks } from '../utils/helpers'
+import { getDecks, mulitRemoveDecks, addDummyDataToStorage } from '../utils/helpers'
 import { yellow } from '../utils/colors'
 
 export default class DeckList extends React.Component {
@@ -13,7 +13,10 @@ export default class DeckList extends React.Component {
     }
 
 	componentDidMount(){
-		getDecks().then((err, result) => console.log(result))
+		getDecks()
+		.then((decks) => this.setState({
+			decks
+		}))
 	}
 
 	render() {

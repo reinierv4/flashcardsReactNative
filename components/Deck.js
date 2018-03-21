@@ -23,8 +23,10 @@ export default class Deck extends React.Component {
 	    this.startQuiz = this.startQuiz.bind(this);
   	}
 
-	componentDidMount(){
-		const deck = getDeck( this.props.navigation.state.params.deckId )
+	async componentDidMount(){
+		console.log(this.props.navigation.state.params.deckId)
+		const deck = await getDeck( this.props.navigation.state.params.deckId )
+		console.log(deck)
 		this.setState({
 			deck
 		})
@@ -47,7 +49,7 @@ export default class Deck extends React.Component {
 	render(){
 		return(
 			<View>
-			{this.state.deck &&
+			{!!this.state.deck && 
 				<View style={styles.container}>
 					<Text>{this.state.deck.title}</Text>
 					<Text style={{color: gray}}>{this.state.deck.questions.length} cards</Text>
