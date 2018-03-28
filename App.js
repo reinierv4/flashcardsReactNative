@@ -77,6 +77,7 @@ const MainNavigator = StackNavigator({
   CreateDeck:{
     screen: CreateDeck,
     navigationOptions: {
+      title: "Create deck",
       headerTintColor: black,
       headerStyle: {
         backgroundColor: white,
@@ -87,6 +88,7 @@ const MainNavigator = StackNavigator({
   CreateQuestion:{
     screen: CreateQuestion,
     navigationOptions: {
+      title: "Add card",
       headerTintColor: black,
       headerStyle: {
         backgroundColor: white,
