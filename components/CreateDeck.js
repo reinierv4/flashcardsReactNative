@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, TextInput, KeyboardAvoidingView } from 'react-native'
 import { yellow, black, white, gray } from '../utils/colors'
 import { saveDeckTitle } from '../utils/helpers'
 
@@ -23,7 +23,7 @@ export default class CreateDeck extends React.Component{
 
 	render(){
 		return(
-			<View style={{alignItems: 'flex-end', flex: 1}}>
+			<KeyboardAvoidingView style={{alignItems: 'flex-end', flex: 1}} behavior="padding">
 				<View style={styles.topText}><Text > NEW DECK</Text></View>
 				<View style={styles.titleContainer}>
 					<Text style={{fontSize: 35, paddingLeft: 75, paddingRight: 75, textAlign: 'center'}}>What is the title of your new deck?</Text>
@@ -39,7 +39,7 @@ export default class CreateDeck extends React.Component{
 				    />
 					<TouchableOpacity style={styles.btn} onPress={this.createDeck}><Text style={{color:white}}>Submit</Text></TouchableOpacity>
 				</View>
-			</View>
+			</KeyboardAvoidingView>
 		)
 	}
 }

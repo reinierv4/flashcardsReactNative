@@ -35,7 +35,7 @@ export default class Deck extends React.Component {
 		if(this.state.deck){
 			this.props.navigation.navigate(
 				'CreateQuestion',
-				{deck: this.state.deck, questionNumber: 1 }
+				{deck: this.state.deck}
 			)
 		}
 	}

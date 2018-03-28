@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { red, green, white, black } from '../utils/colors'
+import { clearLocalNotifications } from '../utils/helpers'
 
 //Make this a stateless functional component
 export default class Answer extends React.Component{
@@ -45,6 +46,7 @@ export default class Answer extends React.Component{
 	}
 
 	showResults() {
+		clearLocalNotifications()
 		const { answeredCorrect, answeredWrong } = this.state
 		this.props.navigation.navigate(
 			'Results',

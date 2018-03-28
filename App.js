@@ -11,6 +11,8 @@ import Results from './components/Results'
 import { Constants } from 'expo'
 import { red, white, black } from './utils/colors'
 import { TabNavigator, StackNavigator } from 'react-navigation'
+import { setLocalNotification } from './utils/helpers'
+
 
 function MyStatusBar ({backgroundColor, ...props}) {
   return (
@@ -75,19 +77,30 @@ const MainNavigator = StackNavigator({
   CreateDeck:{
     screen: CreateDeck,
     navigationOptions: {
-      header: null
+      headerTintColor: black,
+      headerStyle: {
+        backgroundColor: white,
+        height: 50
+      },
     },
   },
   CreateQuestion:{
     screen: CreateQuestion,
     navigationOptions: {
-      header: null
-    }
+      headerTintColor: black,
+      headerStyle: {
+        backgroundColor: white,
+        height: 50
+      },
+    },
   }
 })
 
 export default class App extends React.Component {
-    
+  componentDidMount(){
+    setLocalNotification()
+  }
+
   render() {
     
     return (
@@ -105,3 +118,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
 });
+
+
+
+
